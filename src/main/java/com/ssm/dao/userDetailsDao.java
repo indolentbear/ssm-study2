@@ -11,5 +11,5 @@ import java.util.List;
 public interface userDetailsDao {
     // select
     public List<userDetails> findAllOfUserDetails();
-
+    public userDetails queryByUuid(int uuid);
 }

@@ -3,8 +3,50 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssm.dao.userInfoDao">
-        <insert id="insertOneOfUserInfo">
-            insert into user_info(user_name, user_pwd)
-            values (#{param1}, #{param2}, #{param3});
-        </insert>
+    <resultMap id="info" type="com.ssm.pojo.userInfo">
+        <id property="id" column="fid" javaType="java.lang.Integer" />
+        <result property="name" column="user_name" javaType="java.lang.String" />
+        <result property="pwd" column="user_pwd" javaType="java.lang.String" />
+
+        <result column="user_sex" property="details.sex" />
+        <result column="user_age" property="details.age" />
+        <result column="user_city" property="details.city" />
+        <result column="user_tel" property="details.tel" />
+
+        <result column="fid" property="details.uuid" />
+        <result column="did" property="details.id" />
+        <result column="user_name" property="details.name" />
+    </resultMap>
+
+    <insert id="insertOneOfUserInfo">
+        insert into user_info(user_name, user_pwd)
+        values (#{param1}, #{param2}, #{param3});
+    </insert>
+
+    <select id="selectDetails" resultMap="info">
+        select f.user_id fid,f.user_name,f.user_pwd,d.user_id did,user_sex,user_age,user_city,user_tel
+        from user_info f
+        INNER JOIN user_details d
+        ON f.user_id=d.uuid
+        LIMIT 5;
+    </select>
+
+    <resultMap id="infoBySonQuery" type="com.ssm.pojo.userInfo">
+        <id property="id" column="user_id" />
+        <result property="name" column="user_name"/>
+        <result property="pwd" column="user_pwd"/>
+        <association property="details" select="com.ssm.dao.userDetailsDao.queryByUuid" column="user_id"/>
+    </resultMap>
+
+    <select id="selectDetailsBySonQuery" resultMap="infoBySonQuery">
+        select user_id, user_name, user_pwd
+        from user_info
+        limit 5;
+    </select>
+
+    <select id="selectByPool" resultType="com.ssm.pojo.userInfo">
+        select *
+        from user_info
+        where user_pool=#{param1};
+    </select>
 </mapper>

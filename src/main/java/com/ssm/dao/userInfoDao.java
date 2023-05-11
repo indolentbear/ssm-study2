@@ -11,4 +11,10 @@ import java.util.List;
 public interface userInfoDao {
     // insert
     public void insertOneOfUserInfo(String name, String pwd);
+
+    public List<userInfo> selectDetails();
+
+    public List<userInfo> selectDetailsBySonQuery();
+
+    public List<userInfo> selectByPool(String pool);
 }

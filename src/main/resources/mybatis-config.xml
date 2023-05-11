@@ -18,5 +18,6 @@
     <mappers>
         <mapper resource="mappers/userDetailsMapper.xml"/>
         <mapper resource="mappers/userInfoMapper.xml"/>
+        <mapper resource="mappers/userPoolMapper.xml"/>
     </mappers>
 </configuration>

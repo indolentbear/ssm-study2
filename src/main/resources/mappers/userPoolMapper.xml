@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.dao.userPoolDao">
+    <select id="queryPoolsByName" resultMap="userPool">
+        select *
+        from user_pool
+        where pool_name=#{param1};
+    </select>
+
+    <resultMap id="userPool" type="com.ssm.pojo.userPool">
+        <id property="id" column="pool_id" javaType="java.lang.Integer"/>
+        <result property="name" column="pool_name" javaType="java.lang.String"/>
+        <result property="city" column="pool_city" javaType="java.lang.String"/>
+        
+        <association property="users" select="com.ssm.dao.userInfoDao.selectByPool" column="pool_name"/>
+    </resultMap>
+</mapper>

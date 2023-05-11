@@ -11,5 +11,14 @@
     <resultMap id="UserDetails" type="com.ssm.pojo.userDetails">
         <id property="id" column="user_id" javaType="java.lang.Integer" />
         <result property="name" column="user_name" javaType="java.lang.String" />
+        <result property="sex" column="user_sex" javaType="java.lang.String" />
+        <result property="age" column="user_age" javaType="java.lang.Integer" />
+        <result property="city" column="user_city" javaType="java.lang.String" />
+        <result property="tel" column="user_tel" javaType="java.lang.String" />
+        <result property="uuid" column="uuid" javaType="java.lang.Integer" />
     </resultMap>
+
+    <select id="queryByUuid" resultMap="UserDetails">
+        select * from user_details where uuid=#{param1};
+    </select>
 </mapper>

@@ -2,6 +2,7 @@ package com.ssm.dao;
 
 import com.ssm.pojo.userDetails;
 import com.ssm.pojo.userInfo;
+import com.ssm.pojo.userPool;
 import com.ssm.utils.mybatisUtil;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -29,5 +30,28 @@ public class daoTest {
         }
     }
 
+    @Test
+    public void selectDetailsTest(){
+        userInfoDao infoDao = mybatisUtil.getMapper(userInfoDao.class);
+        List<userInfo> uiList = infoDao.selectDetails();
+        uiList.forEach(item->{
+            System.out.println(item);
+        });
+    }
 
+    @Test
+    public void selectInfoBySonQueryTest(){
+        userInfoDao infoDao = mybatisUtil.getMapper(userInfoDao.class);
+        List<userInfo> uiList = infoDao.selectDetailsBySonQuery();
+        uiList.forEach(item->{
+            System.out.println(item);
+        });
+    }
+
+    @Test
+    public void selectPoolByNameTest(){
+        userPoolDao upDao = mybatisUtil.getMapper(userPoolDao.class);
+        userPool up = upDao.queryPoolsByName("taobao");
+        System.out.println(up);
+    }
 }

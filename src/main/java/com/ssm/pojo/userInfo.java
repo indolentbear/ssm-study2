@@ -17,4 +17,6 @@ public class userInfo {
     private int id;
     private String name;
     private String pwd;
+
+    private userDetails details;
 }
