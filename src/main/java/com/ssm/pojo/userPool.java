@@ -23,11 +23,11 @@ public class userPool {
         info.put("id", id);
         info.put("name",name);
         info.put("city",city);
-//        AtomicInteger i = new AtomicInteger(0);
+//        AtomicInteger i = new AtomicInteger(1);
 //        users.forEach(item->{
 //            info.put(Integer.toString(i.getAndIncrement()),item);
 //        });
-//        info.put("users", users);
+        info.put("users", users);
         return JSON.toJSONString(info);
     }
 }

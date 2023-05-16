@@ -25,6 +25,7 @@
 
     <select id="selectDetails" resultMap="info">
         select f.user_id fid,f.user_name,f.user_pwd,d.user_id did,user_sex,user_age,user_city,user_tel
+#         select fid, fname,fpwd, did, dsex, dage, dcity, dtel
         from user_info f
         INNER JOIN user_details d
         ON f.user_id=d.uuid
@@ -35,7 +36,7 @@
         <id property="id" column="user_id" />
         <result property="name" column="user_name"/>
         <result property="pwd" column="user_pwd"/>
-        <association property="details" select="com.ssm.dao.userDetailsDao.queryByUuid" column="user_id"/>
+        <collection property="details" select="com.ssm.dao.userDetailsDao.queryByUuid" column="user_id"/>
     </resultMap>
 
     <select id="selectDetailsBySonQuery" resultMap="infoBySonQuery">
@@ -44,9 +45,15 @@
         limit 5;
     </select>
 
-    <select id="selectByPool" resultType="com.ssm.pojo.userInfo">
+    <select id="selectByPool" resultMap="userInfoPool">
         select *
         from user_info
         where user_pool=#{param1};
     </select>
+    <resultMap id="userInfoPool" type="com.ssm.pojo.userInfo">
+        <id property="id" column="user_id" />
+        <result property="name" column="user_name"/>
+        <result property="pwd" column="user_pwd"/>
+        <result property="pool" column="user_pool"/>
+    </resultMap>
 </mapper>
