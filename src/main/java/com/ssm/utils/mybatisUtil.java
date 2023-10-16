@@ -28,8 +28,10 @@ public class mybatisUtil {
     public static SqlSession getSession(boolean isAutoCommit) {
         SqlSession ret = session.get();
         if(ret==null){
-            ret = factory.openSession(isAutoCommit);
-            session.set(ret);
+            synchronized(mybatisUtil.class){
+                ret = factory.openSession(isAutoCommit);
+                session.set(ret);
+            }
         }
         return ret;
     }

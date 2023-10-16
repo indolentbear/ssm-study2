@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--  mapper与dao进行关联  -->
+<mapper namespace="com.ssm.dao.productDao">
+    <!--  动态sql  -->
+    <select id="selectByCondition" resultMap="productMap">
+        select *
+        from product
+<!--         where id &gt;=1
+        <where> -->
+        <trim prefix="where" prefixOverrides="and | or" suffix="order by price">
+            <if test="price!=null">
+                and price &gt;=#{price}
+            </if>
+            <if test="madeAddress!=null">
+                and madeAddress=#{madeAddress}
+            </if>
+        </trim>
+        <!--         </where> -->
+        <!--        order by type-->
+    </select>
+
+    <select id="selectByWhereCondition" resultMap="productMap">
+        select *
+        from product
+        <where>
+            <if test="price!=null">
+                and price &gt;=#{price}
+            </if>
+            <if test="madeAddress!=null">
+                and madeAddress=#{madeAddress}
+            </if>
+        </where>
+        order by price;
+    </select>
+
+    <!--  for each  collection  -->
+    <!--
+    如果传入的是单参数且参数类型是一个List的时候，collection属性值为list
+    如果传入的是单参数且参数类型是一个array数组的时候，collection的属性值为array
+    如果使用Map封装了，collection的属性值为对应的Key
+    -->
+    <select id="selectByCity" resultMap="productMap">
+        select *
+        from product
+#         where madeAddress in ("上海市","广州市");
+        where madeAddress in
+        <foreach collection="list" item="madeAddress" separator="," open="(" close=")">
+            #{madeAddress}
+        </foreach>
+    </select>
+
+    <!-- 模糊查询 -->
+    <select id="selectByNick" resultMap="productMap">
+        select *
+        from product
+        where name like "%${keyword}"
+    </select>
+
+    <!--  结果集映射  id：结果集id   type：结果集映射到pojo的实体变量  -->
+    <resultMap id="productMap" type="com.ssm.pojo.product">
+        <!--  column：数据库字段   property：pojo变量名  -->
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="madeAddress" property="madeAddress"/>
+        <result column="price" property="price"/>
+    </resultMap>
+</mapper>

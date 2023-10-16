@@ -1,5 +1,6 @@
 package com.ssm.dao;
 
+import com.ssm.pojo.product;
 import com.ssm.pojo.userDetails;
 import com.ssm.pojo.userInfo;
 import com.ssm.pojo.userPool;
@@ -7,6 +8,8 @@ import com.ssm.utils.mybatisUtil;
 import junit.framework.TestCase;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,5 +56,55 @@ public class daoTest {
         userPoolDao upDao = mybatisUtil.getMapper(userPoolDao.class);
         userPool up = upDao.queryPoolsByName("taobao");
         System.out.println(up);
+    }
+
+    @Test
+    public void selectProduct(){
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("price", 500);
+//        params.put("madeAddress", "上海市");
+
+        productDao mapper = mybatisUtil.getMapper(productDao.class);
+        List<product> products = mapper.selectByCondition(params);
+        products.forEach(item->{
+            System.out.println(item);
+        });
+    }
+
+    @Test
+    public void selectProduct2(){
+        HashMap<String, Object> params = new HashMap<String, Object>();
+//        params.put("price", 500);
+        params.put("madeAddress", "上海市");
+
+        productDao mapper = mybatisUtil.getMapper(productDao.class);
+        List<product> products = mapper.selectByWhereCondition(params);
+        products.forEach(item->{
+            System.out.println(item);
+        });
+    }
+    @Test
+    public void testSelectByCity() {
+        List<String> param = new ArrayList<>();
+        param.add("上海市");
+        param.add("广州市");
+
+        productDao mapper = mybatisUtil.getMapper(productDao.class);
+        List<product> products = mapper.selectByCity(param);
+        products.forEach(item->{
+            System.out.println(item);
+        });
+    }
+
+
+    @Test
+    public void testSelectByNick() {
+        String str = "berry";
+
+        productDao mapper = mybatisUtil.getMapper(productDao.class);
+        List<product> products = mapper.selectByNick(str);
+        products.forEach(item->{
+            System.out.println(item);
+        });
     }
 }
